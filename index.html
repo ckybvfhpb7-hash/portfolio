@@ -207,6 +207,61 @@ border-radius:20px;
 font-size:14px;
 }
 
+    /* EDUCATION */
+
+.education-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 700px;
+  margin: auto;
+}
+
+.education-card {
+  display: flex;
+  gap: 30px;
+  align-items: flex-start;
+  background: rgba(30,30,30,0.7);
+  padding: 25px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.05);
+  backdrop-filter: blur(10px);
+  transition: 0.3s;
+}
+
+.education-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px rgba(30,144,255,0.2);
+}
+
+.education-year {
+  color: #1E90FF;
+  font-weight: 600;
+  font-size: 14px;
+  min-width: 120px;
+}
+
+.education-info h3 {
+  font-size: 18px;
+  margin-bottom: 6px;
+}
+
+.education-info p {
+  opacity: 0.7;
+  font-size: 14px;
+}
+
+.education-badge {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 3px 10px;
+  background: rgba(57,255,20,0.1);
+  color: #39FF14;
+  border: 1px solid rgba(57,255,20,0.3);
+  border-radius: 20px;
+  font-size: 12px;
+}
+    
 /* PROJECTS */
 
 .projects{
@@ -425,7 +480,34 @@ Future AI and Data Science specialist interested in building modern web applicat
 
 </section>
 
-<section id="projects" class="fade-in">
+<section id="education" class="fade-in">
+
+  <h2>Education</h2>
+
+  <div class="education-list">
+
+    <div class="education-card">
+      <div class="education-year">2025 — Present</div>
+      <div class="education-info">
+        <h3>Işık University</h3>
+        <p>Istanbul, Turkey — Computer Engineering</p>
+        <span class="education-badge">Current</span>
+      </div>
+    </div>
+
+    <div class="education-card">
+      <div class="education-year">2025</div>
+      <div class="education-info">
+        <h3>Secondary School</h3>
+        <p>Moscow, Russia — Graduated June 2025</p>
+      </div>
+    </div>
+
+  </div>
+
+</section>
+  
+  <section id="projects" class="fade-in">
 
 <h2>Projects</h2>
 
