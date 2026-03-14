@@ -240,6 +240,17 @@ opacity:0.6;
 font-size:14px;
 }
 
+.fade-in {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+  
 </style>
 
 </head>
@@ -275,7 +286,7 @@ font-size:14px;
 
 </section>
 
-<section id="about">
+<section id="about" class="fade-in">
 
 <h2>About Me</h2>
 
@@ -305,7 +316,7 @@ Future AI and Data Science specialist interested in building modern web applicat
 
 </section>
 
-<section id="projects">
+<section id="projects" class="fade-in">
 
 <h2>Projects</h2>
 
@@ -330,7 +341,7 @@ Future AI and Data Science specialist interested in building modern web applicat
 
 </section>
 
-<section id="contact" class="contact">
+<section id="contact" class="fade-in">
 
   <h2>Contact Me</h2>
 
@@ -379,6 +390,16 @@ Future AI and Data Science specialist interested in building modern web applicat
       }
     });
   </script>
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
 
 </body>
 </html>
