@@ -26,10 +26,34 @@ scroll-behavior:smooth;
 }
 
 body{
-background:radial-gradient(circle at top,#1a1a2e,#0f0f0f);
+background-color: #0f0f0f;
 color:white;
 }
 
+.parallax-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('bg.jpg');
+  background-size: cover;
+  background-position: center;
+  z-index: -1;
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+.parallax-bg::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+}
+    
 /* HEADER */
 
 header{
@@ -415,7 +439,8 @@ font-size:14px;
 </head>
 
 <body>
-
+  <div class="parallax-bg" id="parallax-bg"></div>
+  
 <header>
   <h3>Daniel Gairbekov</h3>
 
@@ -624,6 +649,12 @@ driven by a desire to contribute to innovative solutions that make a real differ
   function toggleMenu() {
     document.getElementById('nav').classList.toggle('open');
   }
+</script>
+<script>
+  window.addEventListener('scroll', function() {
+    const scrolled = window.pageYOffset;
+    document.getElementById('parallax-bg').style.transform = 'translateY(' + scrolled * 0.4 + 'px)';
+  });
 </script>
 </body>
 </html>
