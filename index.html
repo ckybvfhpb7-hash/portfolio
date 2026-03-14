@@ -45,8 +45,56 @@ transition:0.3s;
 header a:hover{
 color:#1E91FF;
 }
+.burger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 5px;
+}
 
-/* HERO */
+.burger span {
+  display: block;
+  width: 25px;
+  height: 2px;
+  background: white;
+  transition: 0.3s;
+}
+
+@media (max-width: 768px) {
+  header {
+    padding: 20px 25px;
+  }
+
+  .burger {
+    display: flex;
+  }
+
+  nav {
+    display: none;
+    position: absolute;
+    top: 70px;
+    left: 0;
+    right: 0;
+    background: rgba(0,0,0,0.95);
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    gap: 20px;
+  }
+
+  nav.open {
+    display: flex;
+  }
+
+  nav a {
+    margin-left: 0;
+    font-size: 18px;
+  }
+}
+  /* HERO */
 
 .hero{
 height:90vh;
@@ -258,7 +306,23 @@ font-size:14px;
 <body>
 
 <header>
+  <h3>Daniel Gairbekov</h3>
 
+<button class="burger" id="burger" onclick="toggleMenu()">
+  <span></span>
+  <span></span>
+  <span></span>
+</button>
+
+<nav id="nav">
+<a href="#home" onclick="toggleMenu()">Home</a>
+<a href="#about" onclick="toggleMenu()">About</a>
+<a href="#projects" onclick="toggleMenu()">Projects</a>
+<a href="#contact" onclick="toggleMenu()">Contact</a>
+</nav>
+
+</header>
+  
 <h3>Daniel Gairbekov</h3>
 
 <nav>
@@ -400,6 +464,11 @@ Future AI and Data Science specialist interested in building modern web applicat
   }, { threshold: 0.1 });
 
   document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+<script>
+  function toggleMenu() {
+    document.getElementById('nav').classList.toggle('open');
+  }
 </script>
 </body>
 </html>
