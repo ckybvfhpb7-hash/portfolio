@@ -331,31 +331,25 @@ Future AI and Data Science specialist interested in building modern web applicat
 
 <section id="contact" class="contact">
 
-<h2>Contact Me</h2>
+  <h2>Contact Me</h2>
 
-<form>
+  <form id="contact-form" action="https://formspree.io/f/mojklbpj" method="POST">
+    <input type="text" name="name" placeholder="Name" required>
+    <input type="email" name="email" placeholder="Email" required>
+    <textarea name="message" rows="5" placeholder="Message"></textarea>
+    <button type="submit">Send</button>
+  </form>
 
-<input type="text" placeholder="Name" required>
+  <p id="form-success" style="display:none; text-align:center; color:#39FF14; margin-top:15px; font-size:16px;">
+    ✅ Message sent! I'll get back to you soon.
+  </p>
 
-<input type="email" placeholder="Email" required>
-
-<textarea rows="5" placeholder="Message"></textarea>
-
-<button type="submit">Send</button>
-
-</form>
-
-<div class="socials">
-
-<a href="https://t.me/saeed01901">Telegram</a>
-
-<a href="https://wa.me/905398890195">WhatsApp</a>
-
-<a href="https://instagram.com/saeed__gairbekov">Instagram</a>
-
-<a href="https://linkedin.com">LinkedIn</a>
-
-</div>
+  <div class="socials">
+    <a href="https://t.me/saeed01901">Telegram</a>
+    <a href="https://wa.me/905398890195">WhatsApp</a>
+    <a href="https://instagram.com/saeed__gairbekov">Instagram</a>
+    <a href="https://linkedin.com">LinkedIn</a>
+  </div>
 
 </section>
 
@@ -364,6 +358,25 @@ Future AI and Data Science specialist interested in building modern web applicat
 © 2026 Daniel Gairbekov
 
 </footer>
+
+<script>
+    const form = document.getElementById('contact-form');
+    const success = document.getElementById('form-success');
+
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const data = new FormData(form);
+      const res = await fetch(form.action, {
+        method: 'POST',
+        body: data,
+        headers: { 'Accept': 'application/json' }
+      });
+      if (res.ok) {
+        form.style.display = 'none';
+        success.style.display = 'block';
+      }
+    });
+  </script>
 
 </body>
 </html>
