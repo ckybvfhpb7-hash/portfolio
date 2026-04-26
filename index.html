@@ -671,15 +671,94 @@ nav a:hover {
   box-shadow: 0 4px 15px rgba(59,130,246,0.4);
 }
 
-.card-link-ghost {
-  background: transparent;
-  border: 1px solid var(--border);
-  color: var(--text-muted);
+.project-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 100px;
+  margin-bottom: 14px;
 }
 
-.card-link-ghost:hover {
-  border-color: var(--border-hover);
+.project-status::before {
+  content: '';
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+  display: inline-block;
+}
+
+.project-status.wip {
+  background: rgba(251,191,36,0.1);
+  color: #fbbf24;
+  border: 1px solid rgba(251,191,36,0.2);
+}
+
+.project-status.live {
+  background: var(--green-dim);
+  color: var(--green);
+  border: 1px solid rgba(34,197,94,0.2);
+}
+
+.card-link-soon {
+  opacity: 0.45;
+  cursor: default;
+  pointer-events: none;
+  font-style: italic;
+}
+
+/* ── CV TOAST ── */
+.cv-toast {
+  position: fixed;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--bg3);
+  border: 1px solid var(--border-hover);
+  border-radius: 14px;
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 14px;
   color: var(--text);
+  z-index: 999;
+  opacity: 0;
+  transition: opacity 0.3s, transform 0.3s;
+  pointer-events: none;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  white-space: nowrap;
+}
+
+.cv-toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.cv-toast-icon {
+  width: 36px; height: 36px;
+  background: var(--accent-dim);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.cv-toast-text strong {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+
+.cv-toast-text span {
+  color: var(--text-muted);
+  font-size: 13px;
 }
 
 /* ── CONTACT ── */
@@ -847,6 +926,80 @@ footer {
   color: var(--text-muted);
 }
 
+/* WIP badge */
+.wip-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px;
+  background: rgba(234,179,8,0.1);
+  color: #eab308;
+  border: 1px solid rgba(234,179,8,0.2);
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+}
+
+.wip-dot {
+  width: 5px; height: 5px;
+  background: #eab308;
+  border-radius: 50%;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* CV request modal */
+.cv-modal-bg {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(8px);
+  z-index: 200;
+  align-items: center;
+  justify-content: center;
+}
+.cv-modal-bg.open { display: flex; }
+
+.cv-modal {
+  background: var(--bg3);
+  border: 1px solid var(--border-hover);
+  border-radius: 20px;
+  padding: 36px;
+  max-width: 440px;
+  width: 90%;
+  position: relative;
+}
+
+.cv-modal h3 {
+  font-family: 'Syne', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.cv-modal p {
+  color: var(--text-muted);
+  font-size: 14px;
+  margin-bottom: 24px;
+  line-height: 1.7;
+}
+
+.cv-modal-close {
+  position: absolute;
+  top: 16px; right: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text-muted);
+  width: 32px; height: 32px;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex; align-items: center; justify-content: center;
+  transition: 0.2s;
+}
+.cv-modal-close:hover { background: var(--surface-hover); color: var(--text); }
+
 /* ── ANIMATIONS ── */
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(24px); }
@@ -964,6 +1117,7 @@ footer {
       <div class="hero-buttons">
         <a href="#projects" class="btn btn-primary">View Projects →</a>
         <a href="#contact" class="btn btn-outline">Get in touch</a>
+        <button class="btn btn-outline" onclick="showCVToast()" style="cursor:pointer;border-color:rgba(234,179,8,0.35);color:#eab308;background:rgba(234,179,8,0.07);font-family:inherit;">↓ Request CV</button>
       </div>
 
       <div class="hero-scroll">
@@ -1075,35 +1229,36 @@ footer {
 
         <div class="project-card">
           <div class="project-icon">🤖</div>
+          <div class="project-status wip">In Development</div>
           <h3>AI Chatbot</h3>
-          <p>Conversational AI assistant built with Python and the OpenAI API. Handles multi-turn dialogue with context memory.</p>
+          <p>Conversational AI assistant built with Python and the OpenAI API. Handles multi-turn dialogue with context memory and a clean terminal interface.</p>
           <div class="card-tags">
             <span class="tag">Python</span>
             <span class="tag">OpenAI</span>
             <span class="tag">NLP</span>
           </div>
           <div class="card-links">
-            <a href="#" class="card-link card-link-primary">GitHub</a>
-            <a href="#" class="card-link card-link-ghost">Live Demo</a>
+            <span class="card-link card-link-ghost card-link-soon">GitHub coming soon</span>
           </div>
         </div>
 
         <div class="project-card">
           <div class="project-icon">✅</div>
+          <div class="project-status wip">In Development</div>
           <h3>Task Manager</h3>
-          <p>Clean and efficient web app for managing daily tasks. Features drag-and-drop, local storage, and filtering.</p>
+          <p>Clean and efficient web app for managing daily tasks. Features drag-and-drop reordering, local storage persistence, and priority filtering.</p>
           <div class="card-tags">
             <span class="tag">JavaScript</span>
             <span class="tag">HTML/CSS</span>
           </div>
           <div class="card-links">
-            <a href="#" class="card-link card-link-primary">GitHub</a>
-            <a href="#" class="card-link card-link-ghost">Live Demo</a>
+            <span class="card-link card-link-ghost card-link-soon">GitHub coming soon</span>
           </div>
         </div>
 
         <div class="project-card">
           <div class="project-icon">⚡</div>
+          <div class="project-status live">Live</div>
           <h3>Portfolio Website</h3>
           <p>This website — built from scratch with vanilla HTML, CSS, and JS. Focused on performance, responsiveness, and clean design.</p>
           <div class="card-tags">
@@ -1112,7 +1267,7 @@ footer {
             <span class="tag">JS</span>
           </div>
           <div class="card-links">
-            <a href="#" class="card-link card-link-primary">GitHub</a>
+            <span class="card-link card-link-ghost card-link-soon">GitHub coming soon</span>
           </div>
         </div>
 
@@ -1176,12 +1331,29 @@ footer {
 
   </div><!-- /wrap -->
 
+  <!-- CV Toast -->
+  <div class="cv-toast" id="cv-toast">
+    <div class="cv-toast-icon">📄</div>
+    <div class="cv-toast-text">
+      <strong>CV coming soon</strong>
+      <span>Request it via the contact form — I'll send it directly.</span>
+    </div>
+    <a href="#contact" onclick="document.getElementById('cv-toast').classList.remove('show')" style="flex-shrink:0;background:var(--accent);color:white;padding:7px 14px;border-radius:8px;font-size:13px;font-weight:500;text-decoration:none;white-space:nowrap;">Request →</a>
+  </div>
+
   <footer>
     <span class="footer-name">Daniel Gairbekov</span>
     <span class="footer-copy">© 2026 — AI & Data Science Developer</span>
   </footer>
 
 <script>
+// CV Toast
+function showCVToast() {
+  const toast = document.getElementById('cv-toast');
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 3500);
+}
+
 // Form submit
 const form = document.getElementById('contact-form');
 const success = document.getElementById('form-success');
